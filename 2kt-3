@@ -7,7 +7,7 @@ public class Main {
         System.out.println("Введите строку:");
         String inputString = scanner.nextLine();
 
-        String result = inputString.replaceAll("[йуеэоаыяию]", "");
+        String result = inputString.replaceAll("[уеэоаыяию]", "");
 
         System.out.println(result);
     }
