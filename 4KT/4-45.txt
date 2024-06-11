@@ -1,0 +1,36 @@
+import java.util.Scanner;
+
+public class AgeConverter {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Введите количество лет (1 < n < 10000): ");
+        int age = scanner.nextInt();
+        
+        if (age < 1 || age > 9999) {
+            System.out.println("Пожалуйста, введите число в диапазоне от 1 до 9999.");
+            return;
+        }
+        
+        String romanAge = convertToRoman(age);
+        System.out.println("в римских числах: " + romanAge);
+    }
+    
+    public static String convertToRoman(int age) {
+        String[] romanNumerals = {"I", "IV", "V", "IX", "X", "XL", "L", "XC", "C", "CD", "D", "CM", "M"};
+        int[] arabicNumbers = {1, 4, 5, 9, 10, 40, 50, 90, 100, 400, 500, 900, 1000};
+        
+        StringBuilder romanAge = new StringBuilder();
+        
+        int i = arabicNumbers.length - 1;
+        while (age > 0) {
+            if (age >= arabicNumbers[i]) {
+                romanAge.append(romanNumerals[i]);
+                age -= arabicNumbers[i];
+            } else {
+                i--;
+            }
+        }
+        
+        return romanAge.toString();
+    }
+}
