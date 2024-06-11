@@ -1,0 +1,27 @@
+import java.util.Scanner;
+
+public class SticksGame {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Введите количество палочек n: ");
+        long n = scanner.nextLong();
+
+        if (calculateWinner(n)) {
+            System.out.println("Таня выиграет игру!");
+        } else {
+            System.out.println("Саша выиграет игру!");
+        }
+    }
+
+    public static boolean calculateWinner(long n) {
+        if (n == 1) {
+            return false; // Если осталась одна палочка, то выигрывает Саша
+        } else if (n % 2 == 0) {
+            // Если количество палочек четное, игрок может взять 1 или половину от всех палочек
+            return !calculateWinner(n / 2);
+        } else {
+            // Если количество палочек нечетное, игрок может взять только 1 палочку
+            return !calculateWinner(n - 1);
+        }
+    }
+}

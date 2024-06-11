@@ -1,0 +1,32 @@
+import java.util.Scanner;
+
+public class FindSquareDifference {
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        // —читываем число
+        int n = scanner.nextInt();
+
+        // ѕровер€ем, что число находитс€ в допустимом диапазоне
+        if (n <= 0 || n > 100000) {
+            System.out.println("„исло должно быть в диапазоне от 0 до 100000");
+            return;
+        }
+
+        // Ќаходим меньший квадрат, из которого можно вычесть n
+        int lowerSquare = (int) Math.floor(Math.sqrt(n));
+
+        // Ќаходим больший квадрат
+        int upperSquare = lowerSquare + 1;
+
+        // ѕровер€ем, что разность между квадратами равна n
+        if (upperSquare * upperSquare - lowerSquare * lowerSquare == n) {
+            // ¬ыводим квадраты
+            System.out.println(n + " = " + upperSquare * upperSquare + " - " + lowerSquare * lowerSquare);
+        } else {
+            // ≈сли разность не равна n, значит такого разложени€ нет
+            System.out.println("Ќевозможно представить " + n + " как разность двух последовательных квадратов");
+        }
+    }
+}
