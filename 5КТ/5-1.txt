@@ -1,0 +1,98 @@
+import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+
+public class Calculator {
+    public static void main(String[] args) {
+        List<String> history = loadHistory();
+
+        Scanner scanner = new Scanner(System.in);
+        while (true) {
+            System.out.print("Введите уравнение (или 'history' для вывода истории, 'exit' для выхода): ");
+            String input = scanner.nextLine();
+
+            if (input.equalsIgnoreCase("exit")) {
+                saveHistory(history);
+                break;
+            } else if (input.equalsIgnoreCase("history")) {
+                printHistory(history);
+                continue;
+            }
+
+            try {
+                String[] tokens = input.split(" ");
+                int operand1 = Integer.parseInt(tokens[0]);
+                int operand2 = Integer.parseInt(tokens[2]);
+                String operator = tokens[1];
+                int result;
+
+                switch (operator) {
+                    case "+":
+                        result = operand1 + operand2;
+                        break;
+                    case "-":
+                        result = operand1 - operand2;
+                        break;
+                    case "*":
+                        result = operand1 * operand2;
+                        break;
+                    case "/":
+                        result = operand1 / operand2;
+                        break;
+                    case "%":
+                        result = operand1 % operand2;
+                        break;
+                    case "^":
+                        result = (int) Math.pow(operand1, operand2);
+                        break;
+                    case "mod":
+                        result = Math.abs(operand1);
+                        break;
+                    default:
+                        System.out.println("Неподдерживаемая операция");
+                        continue;
+                }
+
+                System.out.println("Результат: " + result);
+                history.add(input + " = " + result);
+            } catch (Exception e) {
+                System.out.println("Некорректное выражение. Попробуйте еще раз.");
+            }
+        }
+    }
+
+    private static List<String> loadHistory() {
+        List<String> history = new ArrayList<>();
+        try (BufferedReader reader = new BufferedReader(new FileReader("history.txt"))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                history.add(line);
+            }
+        } catch (IOException e) {
+            // Если файл не найден или возникла ошибка при чтении, просто вернем пустой список
+        }
+        return history;
+    }
+
+    private static void saveHistory(List<String> history) {
+        try (PrintWriter writer = new PrintWriter(new FileWriter("history.txt"))) {
+            for (String entry : history) {
+                writer.println(entry);
+            }
+        } catch (IOException e) {
+            System.out.println("Ошибка при сохранении истории.");
+        }
+    }
+
+    private static void printHistory(List<String> history) {
+        if (history.isEmpty()) {
+            System.out.println("История пуста.");
+        } else {
+            System.out.println("История вычислений:");
+            for (String entry : history) {
+                System.out.println(entry);
+            }
+        }
+    }
+}
